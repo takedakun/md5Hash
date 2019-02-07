@@ -204,10 +204,10 @@ int main(int argc, char *argv[]) {
 
   //use four 32bit buffer.
   int buff_A, buff_B, buff_C, buff_D, buff_AA, buff_BB, buff_CC, buff_DD;
-  buff_A = 1732584193; // hexadecimal 67452301
-  buff_B = -271733879; // hexadecimal efcdab89
-  buff_C = -1732584194; //hexadecimal 98badcfe
-  buff_D = 271733878; //hexadecimal 10325476
+  buff_A = 0x67452301; // hexadecimal 67452301 decimal 173258419
+  buff_B = 0xefcdab89; // hexadecimal efcdab89 decimal -271733879
+  buff_C = 0x98badcfe; //hexadecimal 98badcfe decimal -1732584194
+  buff_D = 0x10325476; //hexadecimal 10325476 decimal 271733878
 
   for (int i=0; i < encoded_message_length; i+=16) {
     buff_AA = buff_A;
@@ -223,10 +223,24 @@ int main(int argc, char *argv[]) {
     buff_C = bit_32_add(buff_C, buff_CC);
     buff_D = bit_32_add(buff_D, buff_DD);
   }
-  cout << buff_A << " ";
-  cout << buff_B << " ";
-  cout << buff_C << " ";
-  cout << buff_D << " ";
+
+  uint32_t digest_A, digest_B, digest_C, digest_D;
+  digest_A = buff_A;
+  digest_B = buff_B;
+  digest_C = buff_C;
+  digest_D = buff_D;
+  for(int i=0; i<4; i++) {
+    cout << hex << ((digest_A & (0xFF << (i*8))) >> (8*i) );
+  }
+  for(int i=0; i<4; i++) {
+    cout << hex << ((digest_B & (0xFF << (i*8))) >> (8*i) );
+  }
+  for(int i=0; i<4; i++) {
+    cout << hex << ((digest_C & (0xFF << (i*8))) >> (8*i) );
+  }
+  for(int i=0; i<4; i++) {
+    cout << hex << ((digest_D & (0xFF << (i*8))) >> (8*i) );
+  }
   cout << endl;
   return 0;
 }
