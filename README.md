@@ -5,6 +5,7 @@ This MD5 hash generator is written in C++.
 # How to use
 ```
 git clone https://github.com/takedakun/md5Hash.git
+cd md5Hash
 g++ md5hash.cpp -o md5hash
 ./md5hash
 ```
