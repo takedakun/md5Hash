@@ -201,51 +201,53 @@ void int_buff2hex_char(uint32_t digest) {
 }
 
 int main(int argc, char *argv[]) {
-  // input message
-  char message[200]; //max length of input is 200
-  cout << "Enter message you want to md5 hash: ";
-  cin >> message;
+  while(1){
+    // input message
+    char message[200]; //max length of input is 200
+    cout << "Enter message you want to md5 hash: ";
+    cin >> message;
 
-  //encode message
-  int *encoded_message = message2binary_array(message);
-  int encoded_message_length = ((strlen(message) >> 2)/14 + 1)*16;
+    //encode message
+    int *encoded_message = message2binary_array(message);
+    int encoded_message_length = ((strlen(message) >> 2)/14 + 1)*16;
 
-  //use four 32bit buffer.
-  int buff_A, buff_B, buff_C, buff_D, buff_AA, buff_BB, buff_CC, buff_DD;
-  buff_A = 0x67452301; // hexadecimal 67452301 decimal 173258419
-  buff_B = 0xefcdab89; // hexadecimal efcdab89 decimal -271733879
-  buff_C = 0x98badcfe; //hexadecimal 98badcfe decimal -1732584194
-  buff_D = 0x10325476; //hexadecimal 10325476 decimal 271733878
+    //use four 32bit buffer.
+    int buff_A, buff_B, buff_C, buff_D, buff_AA, buff_BB, buff_CC, buff_DD;
+    buff_A = 0x67452301; // hexadecimal 67452301 decimal 173258419
+    buff_B = 0xefcdab89; // hexadecimal efcdab89 decimal -271733879
+    buff_C = 0x98badcfe; //hexadecimal 98badcfe decimal -1732584194
+    buff_D = 0x10325476; //hexadecimal 10325476 decimal 271733878
 
 
-  //md5 algorithm
-  for (int i=0; i < encoded_message_length; i+=16) {
-    buff_AA = buff_A;
-    buff_BB = buff_B;
-    buff_CC = buff_C;
-    buff_DD = buff_D;
-    operatons_f(buff_A, buff_B, buff_C, buff_D, encoded_message, i);
-    operatons_g(buff_A, buff_B, buff_C, buff_D, encoded_message, i);
-    operatons_h(buff_A, buff_B, buff_C, buff_D, encoded_message, i);
-    operatons_i(buff_A, buff_B, buff_C, buff_D, encoded_message, i);
-    buff_A = bit_32_add(buff_A, buff_AA);
-    buff_B = bit_32_add(buff_B, buff_BB);
-    buff_C = bit_32_add(buff_C, buff_CC);
-    buff_D = bit_32_add(buff_D, buff_DD);
+    //md5 algorithm
+    for (int i=0; i < encoded_message_length; i+=16) {
+      buff_AA = buff_A;
+      buff_BB = buff_B;
+      buff_CC = buff_C;
+      buff_DD = buff_D;
+      operatons_f(buff_A, buff_B, buff_C, buff_D, encoded_message, i);
+      operatons_g(buff_A, buff_B, buff_C, buff_D, encoded_message, i);
+      operatons_h(buff_A, buff_B, buff_C, buff_D, encoded_message, i);
+      operatons_i(buff_A, buff_B, buff_C, buff_D, encoded_message, i);
+      buff_A = bit_32_add(buff_A, buff_AA);
+      buff_B = bit_32_add(buff_B, buff_BB);
+      buff_C = bit_32_add(buff_C, buff_CC);
+      buff_D = bit_32_add(buff_D, buff_DD);
+    }
+
+    //output hashed message
+    uint32_t digest_A, digest_B, digest_C, digest_D;
+    digest_A = buff_A;
+    digest_B = buff_B;
+    digest_C = buff_C;
+    digest_D = buff_D;
+    cout << "MD5 hashed message: ";
+    int_buff2hex_char(digest_A);
+    int_buff2hex_char(digest_B);
+    int_buff2hex_char(digest_C);
+    int_buff2hex_char(digest_D);
+    cout << endl;
+    cout << "-------------------" << endl;
   }
-
-
-  //output hashed message
-  uint32_t digest_A, digest_B, digest_C, digest_D;
-  digest_A = buff_A;
-  digest_B = buff_B;
-  digest_C = buff_C;
-  digest_D = buff_D;
-  cout << "MD5 hashed message: ";
-  int_buff2hex_char(digest_A);
-  int_buff2hex_char(digest_B);
-  int_buff2hex_char(digest_C);
-  int_buff2hex_char(digest_D);
-  cout << endl;
   return 0;
 }
