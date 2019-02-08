@@ -1,5 +1,5 @@
 # MD5 Hash Generator written in C++
-MD5 is message-digest algorithm widely used for producing 128bit hash values.
+MD5 is message-digest algorithm widely used for producing 128bit hash values. \
 This MD5 hash generator is written in C++.
 
 # How to use
