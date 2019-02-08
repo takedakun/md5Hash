@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include <vector>
+#include <iomanip>
 #include <stdint.h>
 
 using namespace std;
@@ -193,12 +194,19 @@ int* message2binary_array(char* message) {
 }
 
 //change int to hexadecimal
-char int_buff2hex_char(int buff_A, int buff_B, int buff_C, int buff_D) {
-  return 0;
+void int_buff2hex_char(uint32_t digest) {
+  for(int i=0; i<4; i++) {
+    cout << setfill('0') << setw(2) << hex << ((digest & (0xFF << (i*8))) >> (8*i) );
+  }
 }
 
 int main(int argc, char *argv[]) {
-  char message[] = "takeryo";
+  // input message
+  char message[200]; //max length of input is 200
+  cout << "Enter message you want to md5 hash: ";
+  cin >> message;
+
+  //encode message
   int *encoded_message = message2binary_array(message);
   int encoded_message_length = ((strlen(message) >> 2)/14 + 1)*16;
 
@@ -209,6 +217,8 @@ int main(int argc, char *argv[]) {
   buff_C = 0x98badcfe; //hexadecimal 98badcfe decimal -1732584194
   buff_D = 0x10325476; //hexadecimal 10325476 decimal 271733878
 
+
+  //md5 algorithm
   for (int i=0; i < encoded_message_length; i+=16) {
     buff_AA = buff_A;
     buff_BB = buff_B;
@@ -224,23 +234,18 @@ int main(int argc, char *argv[]) {
     buff_D = bit_32_add(buff_D, buff_DD);
   }
 
+
+  //output hashed message
   uint32_t digest_A, digest_B, digest_C, digest_D;
   digest_A = buff_A;
   digest_B = buff_B;
   digest_C = buff_C;
   digest_D = buff_D;
-  for(int i=0; i<4; i++) {
-    cout << hex << ((digest_A & (0xFF << (i*8))) >> (8*i) );
-  }
-  for(int i=0; i<4; i++) {
-    cout << hex << ((digest_B & (0xFF << (i*8))) >> (8*i) );
-  }
-  for(int i=0; i<4; i++) {
-    cout << hex << ((digest_C & (0xFF << (i*8))) >> (8*i) );
-  }
-  for(int i=0; i<4; i++) {
-    cout << hex << ((digest_D & (0xFF << (i*8))) >> (8*i) );
-  }
+  cout << "MD5 hashed message: ";
+  int_buff2hex_char(digest_A);
+  int_buff2hex_char(digest_B);
+  int_buff2hex_char(digest_C);
+  int_buff2hex_char(digest_D);
   cout << endl;
   return 0;
 }
