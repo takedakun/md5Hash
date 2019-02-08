@@ -201,7 +201,7 @@ void int_buff2hex_char(uint32_t digest) {
 }
 
 int main(int argc, char *argv[]) {
-  while(1){
+  //while(1){
     // input message
     char message[200]; //max length of input is 200
     cout << "Enter message you want to md5 hash: ";
@@ -247,7 +247,7 @@ int main(int argc, char *argv[]) {
     int_buff2hex_char(digest_C);
     int_buff2hex_char(digest_D);
     cout << endl;
-    cout << "-------------------" << endl;
-  }
+    //cout << "-------------------" << endl;
+    //}
   return 0;
 }
